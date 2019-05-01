@@ -38,13 +38,13 @@ class TaskItem extends Component {
                         type="button"
                         className="btn btn-warning"
                         onClick={ this.onEditTask }>
-                        <span className="fa fa-pencil mr-5"></span>Edit
+                        <span className="fa fa-pencil mr-5"></span> Edit
                     </button>
                     &nbsp;
                     <button
                         type="button" className="btn btn-danger"
                         onClick={ this.onDeleteItem }>
-                        <span className="fa fa-trash mr-5"></span>Delete
+                        <span className="fa fa-trash mr-5"></span> Delete
                     </button>
                 </td>
             </tr>

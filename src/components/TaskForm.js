@@ -11,30 +11,30 @@ class TaskForm extends Component {
         };
     }
 
-    // componentWillMount() {
-    //     if(this.props.itemEditing && this.props.itemEditing.id !== null){
-    //         this.setState({
-    //             id : this.props.itemEditing.id,
-    //             name : this.props.itemEditing.name,
-    //             status : this.props.itemEditing.status
-    //         });
-    //     }else{
-    //         this.onClear();
-    //     }
-    // }
+    componentWillMount() {
+        this.addOrUpdateTaskFromProps(this.props);
+    }
 
     // componentWillReceiveProps is required if you want to update
     // the state values with new props values, this method will get called
     // whenever any change happens to props values
     componentWillReceiveProps(nextProps) {
-        if(nextProps && nextProps.itemEditing){
+        this.addOrUpdateTaskFromProps(nextProps);
+    }
+
+    addOrUpdateTaskFromProps = (props) => {
+        if(props && props.taskEditing){
             this.setState({
-                id : nextProps.itemEditing.id,
-                name : nextProps.itemEditing.name,
-                status : nextProps.itemEditing.status
+                id : props.taskEditing.id,
+                name : props.taskEditing.name,
+                status : props.taskEditing.status
             });
-        }else{
-            this.onClear();
+        } else{
+            this.setState({
+                id : '',
+                name : '',
+                status : true
+            });
         }
     }
 
@@ -69,8 +69,6 @@ class TaskForm extends Component {
                 <div className="panel-heading">
                     <h3 className="panel-title">
                         { this.state.id === "" ? 'Add task' : 'Update task' }
-                        <span className="fa fa-times-circle text-right" 
-                            onClick={this.onCloseForm}></span>
                     </h3>
                 </div>
                 <div className="panel-body">
@@ -78,7 +76,7 @@ class TaskForm extends Component {
                         <div className="form-group">
                             <label>Task's name :</label>
                             <input
-                                type="text" className="form-control" name="name"
+                                type="text" className="form-control" name="name" required
                                 value={this.state.name} onChange={ this.onHandleChange } />
                         </div>
 

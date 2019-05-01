@@ -3,13 +3,13 @@ import TaskItem from './TaskItem';
 
 class TaskList extends Component {
 
-    // constructor(props) {
-    //     super(props);
-    //     this.state = {
-    //         filterName : '',
-    //         filterStatus : -1
-    //     };
-    // }
+    constructor(props) {
+        super(props);
+        this.state = {
+            filterName : '',
+            filterStatus : -1   //all: -1, active: 1, done: 0
+        };
+    }
 
     onChange = (event) => {
         var target = event.target;
@@ -37,8 +37,20 @@ class TaskList extends Component {
         this.props.onEditTask(id);
     }
 
+    onChange = event => {
+        var target = event.target;
+        var name = target.name;
+        var value = target.value;
+        this.setState({
+            [name]: value
+        }, function() {
+            this.props.onFilter(this.state.filterName, this.state.filterStatus);
+        });
+    }
+
     render() {
         var { tasks } = this.props;
+        var {filterName, filterStatus} = this.state;
         var elmTasks;
         
         if(tasks && tasks.length > 0) {
@@ -65,6 +77,24 @@ class TaskList extends Component {
                             </tr>
                         </thead>
                         <tbody>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <input type="text" className="form-control"
+                                        placeholder="Filter by name"
+                                        name="filterName" value={filterName}
+                                        onChange={this.onChange} />
+                                </td>
+                                <td>
+                                    <select className="form-control" name="filterStatus"
+                                            value={filterStatus} onChange={this.onChange}>
+                                        <option value={-1}>All</option>
+                                        <option value={1}>Active</option>
+                                        <option value={0}>Done</option>
+                                    </select>
+                                </td>
+                                <td></td>
+                            </tr>
                             { elmTasks }
                         </tbody>
                     </table>
