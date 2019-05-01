@@ -9,7 +9,6 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            tasks: [],
             isDisplayForm: false,
             taskEditing: null,
             filter: {
@@ -21,35 +20,6 @@ class App extends Component {
                 by: 'name',
                 value: 1
             }
-        }
-    }
-
-    // onToggleForm = () => {
-    //     var { itemEditing } = this.props;
-    //     if(itemEditing && itemEditing.id !== ''){
-    //         this.props.onOpenForm();
-    //     }else{
-    //         console.log(this.props);
-    //         this.props.onToggleForm();
-    //     }
-    //     this.props.onClearTask({
-    //         id : '',
-    //         name : '',
-    //         status : false
-    //     });
-    // }
-    // onToggleForm = () => {
-    //     this.setState({
-    //         isDisplayForm: !this.state.isDisplayForm
-    //     })
-    // }
-
-    componentWillMount() {
-        if(localStorage && localStorage.getItem("tasks")) {
-            let tasks = JSON.parse(localStorage.getItem("tasks"));
-            this.setState({
-                tasks: tasks
-            })
         }
     }
 
@@ -177,46 +147,46 @@ class App extends Component {
     }
 
     render() {
-        var { tasks, isDisplayForm, taskEditing, filter, keyword, sort } = this.state;
+        var { isDisplayForm, taskEditing, filter, keyword, sort } = this.state;
 
-        if(filter) {
-            // filter by name
-            if(filter.name) {
-                tasks = tasks.filter(task => {
-                    return task.name.toLowerCase().indexOf(filter.name) !== -1;
-                });
-            }
+        // if(filter) {
+        //     // filter by name
+        //     if(filter.name) {
+        //         tasks = tasks.filter(task => {
+        //             return task.name.toLowerCase().indexOf(filter.name) !== -1;
+        //         });
+        //     }
             
-            // filter by status
-            tasks = tasks.filter(task => {
-                if(filter.status === -1) return task;
-                else if(filter.status === 1) return task.status === true;
-                else return task.status === false;
-            });
+        //     // filter by status
+        //     tasks = tasks.filter(task => {
+        //         if(filter.status === -1) return task;
+        //         else if(filter.status === 1) return task.status === true;
+        //         else return task.status === false;
+        //     });
             
-            // search by name: It's exactly the same as filter by name
-            if(keyword) {
-                tasks = tasks.filter(task => {
-                    return task.name.toLowerCase().indexOf(keyword) !== -1;
-                });
-            }
-        }
+        //     // search by name: It's exactly the same as filter by name
+        //     if(keyword) {
+        //         tasks = tasks.filter(task => {
+        //             return task.name.toLowerCase().indexOf(keyword) !== -1;
+        //         });
+        //     }
+        // }
 
-        if(sort) {
-            if(sort.by === 'name') {
-                tasks.sort((a, b) => {
-                    if(a.name.toLowerCase() > b.name.toLowerCase()) return sort.value;
-                    else if(a.name.toLowerCase() < b.name.toLowerCase()) return -sort.value;
-                    else return 0;
-                });
-            } else if(sort.by === 'status') {
-                tasks.sort((a, b) => {
-                    if(a.status > b.status) return -sort.value;
-                    else if(a.status < b.status) return sort.value;
-                    else return 0;
-                });
-            }
-        }
+        // if(sort) {
+        //     if(sort.by === 'name') {
+        //         tasks.sort((a, b) => {
+        //             if(a.name.toLowerCase() > b.name.toLowerCase()) return sort.value;
+        //             else if(a.name.toLowerCase() < b.name.toLowerCase()) return -sort.value;
+        //             else return 0;
+        //         });
+        //     } else if(sort.by === 'status') {
+        //         tasks.sort((a, b) => {
+        //             if(a.status > b.status) return -sort.value;
+        //             else if(a.status < b.status) return sort.value;
+        //             else return 0;
+        //         });
+        //     }
+        // }
 
         var elmTaskForm = isDisplayForm ?
             <div className='col-xs-4 col-sm-4 col-md-4 col-lg-4'>
@@ -246,7 +216,7 @@ class App extends Component {
                         <TaskControl onSearch={this.onSearch} onSort={this.onSort} />
 
                         {/* List */}
-                        <TaskList tasks={tasks}
+                        <TaskList
                             onUpdateStatus={this.onUpdateStatus}
                             onDeleteTask={this.onDeleteTask}
                             onEditTask={this.onEditTask}
