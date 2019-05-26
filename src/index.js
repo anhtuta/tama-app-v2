@@ -7,6 +7,9 @@ import {createStore} from 'redux';
 import myReducer from './reducers/index';
 import {Provider} from 'react-redux';
 
+// "When the store is created, Redux immediately calls the reducers
+// and uses their return values as initial state."
+// (https://css-tricks.com/learning-react-redux/)
 const store = createStore(myReducer);
 
 ReactDOM.render(

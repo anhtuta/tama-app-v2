@@ -105,7 +105,9 @@ class TaskList extends Component {
     }
 }
 
-// convert state from store to props of this component
+// pass state from store to props of this component
+// At this point, this component will have a props = tasks:
+// this.props.tasks
 const mapStateToProps = (state) => {
     return {
         tasks: state.tasks

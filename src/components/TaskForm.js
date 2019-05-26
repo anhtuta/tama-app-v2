@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import * as actions from './../actions/index';
 
 class TaskForm extends Component {
 
@@ -53,7 +55,12 @@ class TaskForm extends Component {
 
     onSaveTask = (event) => {
         event.preventDefault();
-        this.props.onSaveTask(this.state);
+        // this.props.onSaveTask(this.state);
+
+        // hàm onAddTask, là 1 prop của component này, hàm này sẽ
+        // gọi hàm dispatch để truyền action tới store (xem ở dưới,
+        // chỗ mapDispatchToProps)
+        this.props.onAddTask(this.state);
         this.onCloseForm();
     }
 
@@ -102,4 +109,26 @@ class TaskForm extends Component {
     }
 }
 
-export default TaskForm;
+// pass state from store to props of this component
+const mapStateToProps = (state) => {
+    return {
+
+    }
+}
+
+// this component will have a prop named: 'onAddTask'
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        onAddTask : (task) => {
+            dispatch(actions.addTask(task));
+        },
+        onCloseForm: () => {
+            dispatch(actions.closeForm());
+        }
+    }
+}
+
+// khi dùng hàm connect thì có 2 chức năng sau:
+// chuyển state của store thành props của component này, hoặc
+// chuyển hàm dispatch thành props của component này (thể thực thi action)
+export default connect(mapStateToProps, mapDispatchToProps)(TaskForm);

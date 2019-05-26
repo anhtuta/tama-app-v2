@@ -3,13 +3,14 @@ import './App.css';
 import TaskList from './components/TaskList';
 import TaskForm from './components/TaskForm';
 import TaskControl from './components/TaskControl';
+import {connect} from 'react-redux';
+import * as actions from './actions/index';
 
 class App extends Component {
     
     constructor(props) {
         super(props);
         this.state = {
-            isDisplayForm: false,
             taskEditing: null,
             filter: {
                 name: '',
@@ -23,11 +24,6 @@ class App extends Component {
         }
     }
 
-    generateID() {
-        return Math.random().toString(36).substring(2, 15) +
-            Math.random().toString(36).substring(2, 15);
-    }
-
     saveTasksToDb = () => {
         localStorage.setItem("tasks", JSON.stringify(this.state.tasks));
     }
@@ -38,40 +34,42 @@ class App extends Component {
     }
 
     onOpenForm = () => {
-        this.setState({
-            isDisplayForm: true
-        })
+        // this.setState({
+        //     isDisplayForm: true
+        // })
+        this.props.onOpenForm();
     }
 
-    onCloseForm = () => {
-        this.setState({
-            isDisplayForm: false,
-            taskEditing: null
-        })
-    }
+    // onCloseForm = () => {
+    //     // this.setState({
+    //     //     isDisplayForm: false,
+    //     //     taskEditing: null
+    //     // })
+    //     this.props.onCloseForm();
+    // }
 
-    onSaveTask = (data) => {
-        let tasks = this.state.tasks;
-        if (data.id === "") {
-            // add new task
-            let task = data;
-            task.id = this.generateID();
-            tasks.push(task);
-        } else {
-            // edit existing task
-            var index = this.findIndex(data.id);
-            tasks[index] = data;
-        }
+    // onSaveTask = (data) => {
+    //     let tasks = this.state.tasks;
+    //     if (data.id === "") {
+    //         // add new task
+    //         let task = data;
+    //         task.id = this.generateID();
+    //         tasks.push(task);
+    //     } else {
+    //         // edit existing task
+    //         var index = this.findIndex(data.id);
+    //         tasks[index] = data;
+    //     }
 
-        // CHÚ Ý: biến tasks ở trên tham chiếu đến this.state.tasks, do đó nếu thay
-        // đổi giá trị của nó thì state cũng sẽ thay đổi theo, do đó ko cần gọi hàm
-        // setState như sau: this.setState({tasks: tasks}) (?????)
-        this.setState({
-            tasks: tasks,
-            taskEditing: null
-        });
-        this.saveTasksToDb();
-    }
+    //     // CHÚ Ý: biến tasks ở trên tham chiếu đến this.state.tasks, do đó nếu thay
+    //     // đổi giá trị của nó thì state cũng sẽ thay đổi theo, do đó ko cần gọi hàm
+    //     // setState như sau: this.setState({tasks: tasks}) (?????)
+    //     this.setState({
+    //         tasks: tasks,
+    //         taskEditing: null
+    //     });
+    //     this.saveTasksToDb();
+    // }
 
     findIndex = (id) => {
         let {tasks} = this.state;
@@ -147,7 +145,8 @@ class App extends Component {
     }
 
     render() {
-        var { isDisplayForm, taskEditing, filter, keyword, sort } = this.state;
+        var { taskEditing, filter, keyword, sort } = this.state;
+        var {isDisplayForm} = this.props;
 
         // if(filter) {
         //     // filter by name
@@ -190,8 +189,7 @@ class App extends Component {
 
         var elmTaskForm = isDisplayForm ?
             <div className='col-xs-4 col-sm-4 col-md-4 col-lg-4'>
-                <TaskForm onCloseForm={this.onCloseForm}
-                    onSaveTask={this.onSaveTask} taskEditing={taskEditing} />
+                <TaskForm taskEditing={taskEditing} />
             </div> :
             <div className=''></div>;
 
@@ -228,4 +226,25 @@ class App extends Component {
     }
 }
 
-export default App;
+const mapStateToProps = state => {
+    return {
+        isDisplayForm: state.isDisplayForm
+    };
+}
+
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        onToggleForm: () => {
+            dispatch(actions.toggleForm());
+        },
+        onOpenForm: () => {
+            dispatch(actions.openForm());
+        }
+        // Dùng cái dưới ở bên TaskForm.js
+        // ,onCloseForm: () => {
+        //     dispatch(actions.closeForm());
+        // }
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
