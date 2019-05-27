@@ -8,6 +8,16 @@ var generateID = () => {
         Math.random().toString(36).substring(2, 15);
 }
 
+var findIndex = (tasks, id) => {
+    let res = -1;
+    tasks.forEach((task, index) => {
+        if(task.id === id) {
+            res = index;
+        }
+    })
+    return res;
+}
+
 var myReducer = (state = initialState, action) => {
     switch(action.type) {
         case types.LIST_ALL:
@@ -25,6 +35,16 @@ var myReducer = (state = initialState, action) => {
             state.push(newTask);
             localStorage.setItem("tasks", JSON.stringify(state));
             return [...state];
+        case types.UPDATE_STATUS_TASK:
+            let newState = [...state];
+            let index = findIndex(newState, action.id);
+            if (index !== -1) {
+                newState[index].status = !newState[index].status;
+                localStorage.setItem("tasks", JSON.stringify(newState));
+            }
+            console.log("index = ", index);
+            console.log(newState)
+            return newState;
         default: return state;
     }
 }

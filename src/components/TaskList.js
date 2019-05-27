@@ -59,7 +59,6 @@ class TaskList extends Component {
                 return (
                     <TaskItem
                         key={task.id} task={task} index={index + 1}
-                        onUpdateStatus={this.onUpdateStatus}
                         onDeleteTask={this.onDeleteTask} onEditTask={this.onEditTask} />
                 )
             });

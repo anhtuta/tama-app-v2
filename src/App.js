@@ -82,15 +82,15 @@ class App extends Component {
         return res;
     }
 
-    onUpdateStatus = (id) => {
-        let {tasks} = this.state;
-        let index = this.findIndex(id);
+    // onUpdateStatus = (id) => {
+    //     let {tasks} = this.state;
+    //     let index = this.findIndex(id);
 
-        if(index !== -1) {
-            tasks[index].status = !tasks[index].status;
-            this.saveTasksToState(tasks);
-        }
-    }
+    //     if(index !== -1) {
+    //         tasks[index].status = !tasks[index].status;
+    //         this.saveTasksToState(tasks);
+    //     }
+    // }
 
     onDeleteTask = (id) => {
         let {tasks} = this.state;
@@ -215,7 +215,6 @@ class App extends Component {
 
                         {/* List */}
                         <TaskList
-                            onUpdateStatus={this.onUpdateStatus}
                             onDeleteTask={this.onDeleteTask}
                             onEditTask={this.onEditTask}
                             onFilter={this.onFilter} />
