@@ -10,7 +10,11 @@ import {Provider} from 'react-redux';
 // "When the store is created, Redux immediately calls the reducers
 // and uses their return values as initial state."
 // (https://css-tricks.com/learning-react-redux/)
-const store = createStore(myReducer);
+const store = createStore(
+    myReducer,
+    // add this line to use Redux tool in Chrome
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
 ReactDOM.render(
     <Provider store={store}>

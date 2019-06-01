@@ -13,6 +13,14 @@ class TaskForm extends Component {
         };
     }
 
+    onClearState = () => {
+        this.setState({
+            id : '',
+            name : '',
+            status : true
+        });
+    }
+
     componentWillMount() {
         this.addOrUpdateTaskFromProps(this.props);
     }
@@ -25,18 +33,15 @@ class TaskForm extends Component {
     }
 
     addOrUpdateTaskFromProps = (props) => {
-        if(props && props.taskEditing){
+        console.log("props: ", props)
+        if(props && props.itemEditing){
             this.setState({
-                id : props.taskEditing.id,
-                name : props.taskEditing.name,
-                status : props.taskEditing.status
+                id : props.itemEditing.id,
+                name : props.itemEditing.name,
+                status : props.itemEditing.status
             });
         } else{
-            this.setState({
-                id : '',
-                name : '',
-                status : true
-            });
+            this.onClearState();
         }
     }
 
@@ -55,22 +60,19 @@ class TaskForm extends Component {
 
     onSaveTask = (event) => {
         event.preventDefault();
-        // this.props.onSaveTask(this.state);
-
-        // hàm onAddTask, là 1 prop của component này, hàm này sẽ
-        // gọi hàm dispatch để truyền action tới store (xem ở dưới,
-        // chỗ mapDispatchToProps)
-        this.props.onAddTask(this.state);
+        console.log(this.state)
+        this.props.onSaveTask(this.state);
         this.onCloseForm();
     }
 
-    // close form thì component taskform sẽ bị remove, do đó state sẽ bị mất
-    // do đó ko cần reset state
     onCloseForm = () => {
+        this.onClearState();
         this.props.onCloseForm();
     }
 
     render() {
+        if(!this.props.isDisplayForm) return '';
+
         return (
             <div className="panel panel-warning">
                 <div className="panel-heading">
@@ -112,15 +114,16 @@ class TaskForm extends Component {
 // pass state from store to props of this component
 const mapStateToProps = (state) => {
     return {
-
+        isDisplayForm: state.isDisplayForm,
+        itemEditing: state.itemEditing
     }
 }
 
-// this component will have a prop named: 'onAddTask'
+// this component will have a prop named: 'onSaveTask'
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        onAddTask : (task) => {
-            dispatch(actions.addTask(task));
+        onSaveTask : (task) => {
+            dispatch(actions.saveTask(task));
         },
         onCloseForm: () => {
             dispatch(actions.closeForm());

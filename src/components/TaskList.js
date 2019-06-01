@@ -12,32 +12,6 @@ class TaskList extends Component {
         };
     }
 
-    onChange = (event) => {
-        var target = event.target;
-        var name = target.name;
-        var value = target.type === 'checkbox' ? target.checked : target.value;
-        var filter = {
-            name : name === 'filterName' ? value : this.state.filterName,
-            status : name === 'filterStatus' ? value : this.state.filterStatus
-        };
-        this.props.onFilterTable(filter);
-        this.setState({
-            [name] : value
-        });
-    }
-
-    onUpdateStatus = (id) => {
-        this.props.onUpdateStatus(id);
-    }
-
-    onDeleteTask = (id) => {
-        this.props.onDeleteTask(id);
-    }
-
-    onEditTask = (id) => {
-        this.props.onEditTask(id);
-    }
-
     onChange = event => {
         var target = event.target;
         var name = target.name;
@@ -57,9 +31,7 @@ class TaskList extends Component {
         if(tasks && tasks.length > 0) {
             elmTasks = tasks.map((task, index) => {
                 return (
-                    <TaskItem
-                        key={task.id} task={task} index={index + 1}
-                        onDeleteTask={this.onDeleteTask} onEditTask={this.onEditTask} />
+                    <TaskItem key={task.id} task={task} index={index + 1} />
                 )
             });
         }
@@ -67,7 +39,7 @@ class TaskList extends Component {
         return (
             <div className="row mt-15">
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <table className="table table-bordered table-hover">
+                    <table className="table table-bordered table-hover table-striped">
                         <thead>
                             <tr>
                                 <th className="text-center">STT</th>
@@ -107,7 +79,13 @@ class TaskList extends Component {
 // pass state from store to props of this component
 // At this point, this component will have a props = tasks:
 // this.props.tasks
+// @param state: state của store, giá trị nào mà nhiều component
+// dùng chung thì nên cho vào state của store thay vì lưu ở state
+// của chính component đó.
 const mapStateToProps = (state) => {
+    // state này là 1 json gồm các key (phần tử) được định nghĩa ở
+    // reducer (trong file /reducers/index.js)
+    console.log("Thử in state ra sẽ thấy nó gồm những gì: ", state);
     return {
         tasks: state.tasks
     }
