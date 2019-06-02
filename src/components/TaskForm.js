@@ -22,6 +22,7 @@ class TaskForm extends Component {
     }
 
     componentWillMount() {
+        console.log("componentWillMount: ", this.props)
         this.addOrUpdateTaskFromProps(this.props);
     }
 
@@ -29,12 +30,13 @@ class TaskForm extends Component {
     // the state values with new props values, this method will get called
     // whenever any change happens to props values
     componentWillReceiveProps(nextProps) {
+        console.log("componentWillMount: ", nextProps)
         this.addOrUpdateTaskFromProps(nextProps);
     }
 
     addOrUpdateTaskFromProps = (props) => {
-        console.log("props: ", props)
-        if(props && props.itemEditing){
+        // if(a != null) tương đương với if(a !== null && a !== undefined)
+        if(props && props.itemEditing && props.itemEditing.id != null){
             this.setState({
                 id : props.itemEditing.id,
                 name : props.itemEditing.name,
@@ -43,6 +45,7 @@ class TaskForm extends Component {
         } else{
             this.onClearState();
         }
+        console.log(this.state)
     }
 
     onHandleChange = (event) => {

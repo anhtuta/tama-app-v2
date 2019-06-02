@@ -23,8 +23,9 @@ class App extends Component {
         }
     }
 
-    onAddTask =  () => {
+    onAddTask = () => {
         this.props.onOpenForm();
+        this.props.onClearItemEditing();
     }
 
     onFilter = (filterName, filterStatus) => {
@@ -141,11 +142,14 @@ const mapDispatchToProps = (dispatch, props) => {
         },
         onOpenForm: () => {
             dispatch(actions.openForm());
-        }
+        },
         // Dùng cái dưới ở bên TaskForm.js
-        // ,onCloseForm: () => {
+        // onCloseForm: () => {
         //     dispatch(actions.closeForm());
         // }
+        onClearItemEditing: () => {
+            dispatch(actions.clearItemEditing());
+        }
     };
 }
 

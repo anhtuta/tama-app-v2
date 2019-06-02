@@ -42,6 +42,31 @@ function getStateAfterDeleteTask(state, id) {
     return newState;
 }
 
+function getStateAfterSaveTask(state, action) {
+    let newTask = {
+        id: action.task.id,
+        name: action.task.name,
+        status: action.task.status
+    }
+    if(newTask.id && newTask.id !== "") {
+        // update task
+        let index = findIndex(state, newTask.id);
+        if(index !== -1) {
+            state[index] = newTask;
+        }
+    } else{
+        // add new task
+        newTask.id = generateID();
+
+        // làm như này là thay đổi state cũ: KHÔNG NÊN DÙNG
+        // Dùng cách khác như nào???
+        state.push(newTask);
+    }
+    
+    localStorage.setItem("tasks", JSON.stringify(state));
+    return state;
+}
+
 // State của reducer này là 1 mảng các task
 // Mày nghĩ dùng như này:
 // newState = [...state];
@@ -56,29 +81,10 @@ var myReducer = (state = initialState, action) => {
         case types.LIST_ALL:
             return state;
         case types.SAVE_TASK:
-            console.log(action)
-            newTask = {
-                id: action.task.id,
-                name: action.task.name,
-                status: action.task.status
-            }
-            if(newTask.id && newTask.id !== "") {
-                // update task
-                index = findIndex(state, newTask.id);
-                if(index !== -1) {
-                    state[index] = newTask;
-                }
-            } else{
-                // add new task
-                newTask.id = generateID();
-
-                // làm như này là thay đổi state cũ: KHÔNG NÊN DÙNG
-                // Dùng cách khác như nào???
-                state.push(newTask);
-            }
-            
-            localStorage.setItem("tasks", JSON.stringify(state));
-            return [...state];
+            newState = getStateAfterSaveTask(state, action);
+            return [...newState];
+            // Tại sao dùng như dưới ko được?
+            //return newState;
         case types.UPDATE_STATUS_TASK:
             newState = [...state];
             index = findIndex(newState, action.id);
@@ -95,9 +101,12 @@ var myReducer = (state = initialState, action) => {
             return newState;
 
             // TẠI SAO DÙNG function LẠI KO ĐƯỢC???
-            // return getStateAfterUpdateStatus(state, action.id);
+            // newState = getStateAfterUpdateStatus(state, action.id);
+            // return newState;
+            // return [...newState];
         case types.DELETE_TASK:
-            return getStateAfterDeleteTask(state, action.id);
+            newState = getStateAfterDeleteTask(state, action.id);
+            return newState;
         default: return state;
     }
 }

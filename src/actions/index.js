@@ -51,3 +51,9 @@ export const editTask = (task) => {
         task
     }
 }
+
+export const clearItemEditing = () => {
+    return {
+        type: types.CLEAR_ITEM_EDITING
+    }
+}
