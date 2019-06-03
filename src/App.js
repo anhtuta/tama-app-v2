@@ -7,91 +7,15 @@ import {connect} from 'react-redux';
 import * as actions from './actions/index';
 
 class App extends Component {
-    
-    constructor(props) {
-        super(props);
-        this.state = {
-            filter: {
-                name: '',
-                status: -1
-            },
-            keyword: '',
-            sort: {
-                by: 'name',
-                value: 1
-            }
-        }
-    }
 
     onAddTask = () => {
         this.props.onOpenForm();
         this.props.onClearItemEditing();
     }
 
-    onFilter = (filterName, filterStatus) => {
-        filterStatus = parseInt(filterStatus, 10);
-        this.setState({
-            filter: {
-                name: filterName.toLowerCase(),
-                status: filterStatus
-            }
-        })
-    }
-
-    onSearch = (keyword) => {
-        this.setState({
-            keyword: keyword
-        })
-    }
-
-    onSort = sort => {
-        this.setState({
-            sort: sort
-        })
-    }
-
     render() {
         // var { taskEditing, filter, keyword, sort } = this.state;
         var {isDisplayForm} = this.props;
-
-        // if(filter) {
-        //     // filter by name
-        //     if(filter.name) {
-        //         tasks = tasks.filter(task => {
-        //             return task.name.toLowerCase().indexOf(filter.name) !== -1;
-        //         });
-        //     }
-        //    
-        //     // filter by status
-        //     tasks = tasks.filter(task => {
-        //         if(filter.status === -1) return task;
-        //         else if(filter.status === 1) return task.status === true;
-        //         else return task.status === false;
-        //     });
-        //    
-        //     // search by name: It's exactly the same as filter by name
-        //     if(keyword) {
-        //         tasks = tasks.filter(task => {
-        //             return task.name.toLowerCase().indexOf(keyword) !== -1;
-        //         });
-        //     }
-        // }
-        //
-        // if(sort) {
-        //     if(sort.by === 'name') {
-        //         tasks.sort((a, b) => {
-        //             if(a.name.toLowerCase() > b.name.toLowerCase()) return sort.value;
-        //             else if(a.name.toLowerCase() < b.name.toLowerCase()) return -sort.value;
-        //             else return 0;
-        //         });
-        //     } else if(sort.by === 'status') {
-        //         tasks.sort((a, b) => {
-        //             if(a.status > b.status) return -sort.value;
-        //             else if(a.status < b.status) return sort.value;
-        //             else return 0;
-        //         });
-        //     }
-        // }
 
         var elmTaskForm = isDisplayForm ?
             <div className='col-xs-4 col-sm-4 col-md-4 col-lg-4'>
@@ -117,7 +41,7 @@ class App extends Component {
                         </button>
 
                         {/* Search, sort */}
-                        <TaskControl onSearch={this.onSearch} onSort={this.onSort} />
+                        <TaskControl onSort={this.onSort} />
 
                         {/* List */}
                         <TaskList

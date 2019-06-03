@@ -75,7 +75,7 @@ function getStateAfterSaveTask(state, action) {
 // Do đó thay đổi 1 thằng thì thằng kia thay đổi theo
 // Thế rốt cuộc tạo pure function như nào để ko thay đổi state?
 var myReducer = (state = initialState, action) => {
-    let id, index, newTask, newState;
+    let index, newState;
 
     switch(action.type) {
         case types.LIST_ALL:

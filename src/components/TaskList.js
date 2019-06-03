@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 
 class TaskList extends Component {
 
+    // Phần filter KHÔNG dùng Redux, vì lưu ở state của component này là đủ rồi
     constructor(props) {
         super(props);
         this.state = {
@@ -16,19 +17,58 @@ class TaskList extends Component {
         var target = event.target;
         var name = target.name;
         var value = target.value;
+        if(name === "filterStatus") {
+            value = parseInt(value);
+        }
+
         this.setState({
             [name]: value
-        }, function() {
-            this.props.onFilter(this.state.filterName, this.state.filterStatus);
         });
     }
 
     render() {
-        var { tasks } = this.props;
+        var { tasks, keyword, sort } = this.props;
         var {filterName, filterStatus} = this.state;
         var elmTasks;
         
         if(tasks && tasks.length > 0) {
+            // filter by name
+            if(filterName && filterName !== '') {
+                tasks = tasks.filter(task => {
+                    return task.name.toLowerCase().indexOf(filterName) !== -1;
+                });
+            }
+
+            // filter by status
+            tasks = tasks.filter(task => {
+                if(filterStatus === -1) return task;
+                else if(filterStatus === 1) return task.status === true;
+                else return task.status === false;
+            });
+            
+            // search by name: It's exactly the same as filter by name
+            if(keyword) {
+                tasks = tasks.filter(task => {
+                    return task.name.toLowerCase().indexOf(keyword) !== -1;
+                });
+            }
+            
+            if(sort) {
+                if(sort.by === 'name') {
+                    tasks.sort((a, b) => {
+                        if(a.name.toLowerCase() > b.name.toLowerCase()) return sort.value;
+                        else if(a.name.toLowerCase() < b.name.toLowerCase()) return -sort.value;
+                        else return 0;
+                    });
+                } else if(sort.by === 'status') {
+                    tasks.sort((a, b) => {
+                        if(a.status > b.status) return -sort.value;
+                        else if(a.status < b.status) return sort.value;
+                        else return 0;
+                    });
+                }
+            }
+
             elmTasks = tasks.map((task, index) => {
                 return (
                     <TaskItem key={task.id} task={task} index={index + 1} />
@@ -85,9 +125,11 @@ class TaskList extends Component {
 const mapStateToProps = (state) => {
     // state này là 1 json gồm các key (phần tử) được định nghĩa ở
     // reducer (trong file /reducers/index.js)
-    console.log("Thử in state ra sẽ thấy nó gồm những gì: ", state);
+    // console.log("Thử in state ra sẽ thấy nó gồm những gì: ", state);
     return {
-        tasks: state.tasks
+        tasks: state.tasks,
+        keyword: state.search,
+        sort: state.sort
     }
 }
 

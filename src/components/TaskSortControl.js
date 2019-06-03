@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import * as actions from './../actions/index';
 
 class TaskSortControl extends Component {
 
@@ -66,4 +68,12 @@ class TaskSortControl extends Component {
     }
 }
 
-export default TaskSortControl;
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        onSort: (sort) => {
+            dispatch(actions.sortTask(sort))
+        },
+    };
+}
+
+export default connect(null, mapDispatchToProps)(TaskSortControl);

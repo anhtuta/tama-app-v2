@@ -2,6 +2,8 @@ import {combineReducers} from 'redux';
 import tasks from './tasks';
 import isDisplayForm from './isDisplayForm';
 import itemEditing from './itemEditing';
+import search from './search';
+import sort from './sort';
 
 // tham số của hàm combineReducers chính là giá trị state của store,
 // tham số này là 1 JSON, mỗi 1 phần tử trong JSON chính là 1 reducer.
@@ -9,7 +11,9 @@ import itemEditing from './itemEditing';
 const myReducer = combineReducers({
     tasks,  // tasks: tasks,
     isDisplayForm,
-    itemEditing
+    itemEditing,
+    search,
+    sort
 })
 
 export default myReducer;

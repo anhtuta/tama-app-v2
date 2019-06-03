@@ -7,3 +7,6 @@ export const UPDATE_STATUS_TASK = 'UPDATE_STATUS_TASK';
 export const DELETE_TASK = 'DELETE_TASK';
 export const EDIT_TASK = 'EDIT_TASK';
 export const CLEAR_ITEM_EDITING = 'CLEAR_ITEM_EDITING';
+export const FILTER_TABLE = 'FILTER_TABLE'; // ko dùng
+export const SEARCH = 'SEARCH';
+export const SORT = 'SORT';

@@ -57,3 +57,18 @@ export const clearItemEditing = () => {
         type: types.CLEAR_ITEM_EDITING
     }
 }
+
+export const searchTask = (keyword) => {
+    return {
+        type: types.SEARCH,
+        keyword
+    }
+}
+
+// sort = {by:..., value:...}
+export const sortTask = (sort) => {
+    return {
+        type: types.SORT,
+        sort
+    }
+}
