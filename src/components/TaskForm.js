@@ -88,7 +88,7 @@ class TaskForm extends Component {
                         <div className="form-group">
                             <label>Task's name :</label>
                             <input
-                                type="text" className="form-control" name="name" required
+                                type="text" className="form-control" name="name" required autoFocus 
                                 value={this.state.name} onChange={ this.onHandleChange } />
                         </div>
 

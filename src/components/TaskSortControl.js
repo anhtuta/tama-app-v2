@@ -6,26 +6,34 @@ class TaskSortControl extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            sort: {
-                by: 'name',
-                value: 1
+        var sortObj = JSON.parse(localStorage.getItem("sortTasks"));
+        if(sortObj) {
+            this.state = {
+                sort: sortObj
+            }
+        } else {
+            this.state = {
+                sort: {
+                    by: 'name',
+                    value: 1
+                }
             }
         }
     }
 
     onClick = (sortBy, sortValue) => {
-        this.setState({
-            sort: {
-                by: sortBy,
-                value: sortValue
-            }
-        });
-
-        this.props.onSort({
+        let sortObj = {
             by: sortBy,
             value: sortValue
+        }
+
+        this.setState({
+            sort: sortObj
         });
+
+        this.props.onSort(sortObj);
+
+        localStorage.setItem("sortTasks", JSON.stringify(sortObj));
     }
 
     render() {

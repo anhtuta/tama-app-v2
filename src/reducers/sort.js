@@ -1,6 +1,7 @@
 import * as types from '../constants/ActionTypes';
 
-var initialState = {
+var data = JSON.parse(localStorage.getItem("sortTasks"));
+var initialState = data ? data : {
     by: 'name',
     value: 1
 };

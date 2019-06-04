@@ -14,7 +14,6 @@ class App extends Component {
     }
 
     render() {
-        // var { taskEditing, filter, keyword, sort } = this.state;
         var {isDisplayForm} = this.props;
 
         var elmTaskForm = isDisplayForm ?
@@ -29,7 +28,6 @@ class App extends Component {
                     <h3>Task management</h3><hr/>
                 </div>
                 <div className="row">
-                    {/* form */}
                     {elmTaskForm}
 
                     <div className={ isDisplayForm === true ?
@@ -39,13 +37,8 @@ class App extends Component {
                             <span className="fa fa-plus mr-5"></span>&nbsp;
                             Add task
                         </button>
-
-                        {/* Search, sort */}
-                        <TaskControl onSort={this.onSort} />
-
-                        {/* List */}
-                        <TaskList
-                            onFilter={this.onFilter} />
+                        <TaskControl />
+                        <TaskList />
                     </div>
                 </div>
             </div>
